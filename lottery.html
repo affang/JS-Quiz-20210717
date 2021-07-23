@@ -5,24 +5,47 @@
   <meta charset="utf-8">
   <title>五倍樂透手動選號機</title>
   <style type="text/css">
+    body {
+      background-color: #000;
+      background-image: url(https://i1.wp.com/getwallpapers.com/wallpaper/full/3/4/1/333955.jpg);
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
     .wrap {
-      padding: 1em;
+      background: #1b1b1b;
+      background: linear-gradient(to bottom, #0d0d0d 0%, #010101 50%, #0a0a0a 53%, #3b372b 76%, #423e36 87%, #25231f 100%);
+      border-radius: 25px;
+      padding-left: 30px;
+      padding-top: 30px;
+      border: 4px solid #ac8a6d;
+      width: 600px;
+      margin: 0 auto;
     }
 
     button {
       font-size: 22px;
     }
 
+    h1 {
+      text-align: center;
+      color: rgb(255, 255, 255);
+      text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.7);
+      font-size: 32px;
+    }
+
     .lottery-nums {
       overflow: hidden;
-      width: 600px;
+      width: 550px;
+      margin: 0 auto;
+
     }
 
     .lottery-nums>div {
       display: block;
       float: left;
-      width: 25px;
-      height: 25px;
+      width: 35px;
+      height: 35px;
       border: 1px solid #999;
       background-color: #fff;
       color: #555;
@@ -30,23 +53,50 @@
       padding: 10px;
       text-align: center;
       line-height: 25px;
-      margin-right: 10px;
-      margin-bottom: 10px;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      border-radius: 15px;
+      line-height: 36px;
+      cursor: pointer;
     }
 
     .lottery-nums .selected {
-      background-color: green;
+      background-color: #8a8a8a;
       color: #fff;
     }
 
     .lottery-nums .highlight {
-      background-color: red;
+      background-color: #ffaa00;
       color: #fff;
     }
 
     .lottery-nums .selected.highlight {
-      background-color: yellow;
-      color: #333;
+      background-color:rgb(175, 21, 116);
+      color: rgb(255, 211, 16);
+      box-shadow: 0px 0px 6px rgba(255, 255, 255, 0.7);
+      font-size: 34px;
+    }
+
+    p {
+      text-align: center;
+    }
+
+    .lottery-result {
+      color: #ac8a6d;
+      padding-left: 24px;
+    }
+
+    button {
+      border-radius: 10px;
+      background: linear-gradient(to bottom, #fceabb 0%, #fccd4d 50%, #f8b500 51%, #fbdf93 100%);
+      padding: 2px 18px;
+      text-shadow: 2px 2px 0px rgba(42, 31, 14, 0.2);
+      color: #4b3107;
+      font-weight: bold;
+    }
+
+    button:nth-child(1) {
+      margin-right: 25px;
     }
   </style>
 </head>
@@ -85,20 +135,57 @@
     }
 
     // 1. 為數字按鈕加入事件
-    $('.lottery-nums div').on('click', function () {
+    $('.lottery-nums div').on('click', function (e) {
+        let count = $('.selected').length;
+        console.log(count);
 
-    });
+        if (count === 6) {
+          alert('你已選滿6組號碼');
+        }
+        else {
+          $(e.target).addClass('selected');
+        };
+
+      });
 
     // 重設按鈕
-    $('.reset').on('click', function () {
-
-    });
+     $('.reset').on('click', function () {
+        $('.lottery-nums div').removeClass();
+        $('.lottery-result>span').text('');
+      });
 
 
     // 兌獎按鈕
     $('.btn-lottery').on('click', function () {
+        let count = $('.selected').length;
 
-    });
+        if (count < 6) {
+          alert('尚未選滿6組號碼');
+        }
+        else {
+          let lottery = [],
+            number,
+            n;
+          let i;
+
+          while (lottery.length < 6) {
+            number = parseInt(Math.random() * 49 + 1, 10);
+            if (lottery.indexOf(number) === -1) {
+              lottery.push(number);
+            }
+          }
+
+          //把號碼列出至 .lottery-result > span 中。
+          $('.lottery-result')
+            .children()
+            .text(lottery);
+
+          // 把被選中的號碼加入 highlight class
+          lottery.forEach((el, idx) => {
+            $('.lottery-nums > div').eq(el - 1).addClass('highlight');
+          });
+        };
+      });
 
   </script>
 
